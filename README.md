@@ -1,0 +1,1 @@
+A versatile, customizable and configurable flutter map.

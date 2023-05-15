@@ -1,0 +1,124 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:geo_map/geo_map.dart';
+
+import '../locations.dart';
+
+class Bottom extends StatelessWidget {
+  const Bottom({
+    super.key,
+    required this.ctrl,
+    required this.activeMarkers,
+    required this.onTapSwitch,
+    required this.toggleDebugMode,
+  });
+
+  final MapCtrl ctrl;
+  final List<LatLon> activeMarkers;
+  final Function() onTapSwitch;
+  final Function() toggleDebugMode;
+
+  @override
+  Widget build(BuildContext context) {
+    final mQ = MediaQuery.of(context);
+    var gap = max(mQ.padding.bottom, mQ.viewInsets.bottom);
+    gap = max(gap, 8);
+
+    const blue = Colors.blue;
+    const shape = BoxShape.circle;
+    final border = Border.all(color: Colors.white);
+
+    Widget iconButton(IconData icon, Function() fun) {
+      Widget curr = Icon(icon, color: Colors.white, size: 24);
+      curr = Center(child: curr);
+
+      final decor = BoxDecoration(color: blue, shape: shape, border: border);
+      curr = DecoratedBox(decoration: decor, child: curr);
+
+      curr = SizedBox(width: 56, height: 56, child: curr);
+      curr = Padding(padding: const EdgeInsets.all(4), child: curr);
+      return GestureDetector(onTap: fun, child: curr);
+    }
+
+    Widget button(String text, LatLon latLon, double zoom) {
+      final isActive = activeMarkers.contains(latLon);
+
+      Widget curr = Text(text, overflow: TextOverflow.ellipsis);
+      curr = Center(child: curr);
+      curr = Padding(padding: const EdgeInsets.all(4), child: curr);
+      curr = DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          border: Border.all(color: Colors.white),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        child: curr,
+      );
+      curr = SizedBox(width: 72, height: 32, child: curr);
+      curr = Opacity(opacity: isActive ? 1 : 0.25, child: curr);
+
+      if (!isActive) return curr;
+
+      return GestureDetector(
+        onTap: () => ctrl.animateTo(latLon, zoom),
+        child: curr,
+      );
+    }
+
+    Widget curent = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            button('London', londonLocation, 4),
+            button('Madrid', madridLocation, 5),
+            button('Vienna', viennaLocation, 6),
+            button('Istanbul', istanbulLocation, 7),
+            button('Stockholm', stockholmLocation, 8),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            button('Budapest', budapestLocation, 9),
+            button('Lisbon', lisbonLocation, 10),
+            button('Paris', parisLocation, 11),
+            button('Rome', romeLocation, 12),
+            button('Berlin', berlinLocation, 13),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            button('Prishtin', prishtinaLocation, 14),
+            button('Shkup', shkupLocation, 15),
+            button('Tirana3', tirana3Location, 16),
+            button('Tirana2', tirana2Location, 16),
+            button('Tirana1', tirana1Location, 16),
+          ],
+        ),
+        SizedBox(height: gap),
+      ],
+    );
+
+    curent = ColoredBox(color: Colors.blue.withOpacity(0.5), child: curent);
+
+    curent = Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        iconButton(Icons.security, toggleDebugMode),
+        iconButton(Icons.swipe_vertical_sharp, onTapSwitch),
+        iconButton(Icons.location_searching, () => ctrl.animateTo(myGps, 18)),
+        curent,
+      ],
+    );
+    curent = SizedBox(width: mQ.size.width, child: curent);
+
+    return Positioned(bottom: 0, child: curent);
+  }
+}
