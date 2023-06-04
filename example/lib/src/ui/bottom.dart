@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:geo_map/geo_map.dart';
+import 'package:ptwcode_map/ptwcode_map.dart';
 
 import '../locations.dart';
 

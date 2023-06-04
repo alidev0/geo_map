@@ -1,4 +1,4 @@
-import 'package:geo_map/geo_map.dart';
+import 'package:ptwcode_map/ptwcode_map.dart';
 
 final myGps = LatLon(41.318340, 19.824007);
 

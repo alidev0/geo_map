@@ -1,7 +1,7 @@
-name: geo_map
+name: ptwcode_map
 description: A versatile, customizable and configurable flutter map.
-version: 1.0.0
-repository: https://github.com/alidev0/geo_map
+version: 1.0.1
+repository: https://github.com/alidev0/ptwcode_map
 
 environment:
   sdk: '>=2.19.6 <3.0.0'

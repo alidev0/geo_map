@@ -1,4 +1,4 @@
-import '../../geo_map.dart';
+import '../../ptwcode_map.dart';
 import '../models/tile_point.dart';
 import '../providers/tile_prov.dart';
 import 'tile_manager.dart';
