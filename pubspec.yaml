@@ -1,6 +1,7 @@
 name: ptwcode_map
-description: A versatile, customizable and configurable flutter map.
-version: 1.0.1
+description: A flutter map that is configurable to use the tile provider you want. It support cluster as well. It can be customize with custom markers and custom clusters.
+
+version: 1.0.2
 repository: https://github.com/alidev0/ptwcode_map
 
 environment:
@@ -9,9 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^4.0.6
-  path_provider: ^2.0.14
-  shared_preferences: ^2.1.1
+  dio: ^5.2.1
+  path_provider: ^2.0.15
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
