@@ -1,3 +1,6 @@
+## 1.0.3
+- fix IOS
+
 ## 1.0.2
 - update dependencies
 - add demo video
