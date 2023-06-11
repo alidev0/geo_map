@@ -6,6 +6,7 @@ import '../models/tile_point.dart';
 import 'cache_prov.dart';
 import 'directory_prov.dart';
 
+/// TileProvider
 const tileProvider = TileProvider();
 
 class TileProvider {

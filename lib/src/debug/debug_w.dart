@@ -4,6 +4,7 @@ import '../calculations/calculator.dart';
 import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 
+/// DebugW
 class DebugW extends StatelessWidget {
   const DebugW({
     super.key,

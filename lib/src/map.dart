@@ -24,6 +24,7 @@ import 'ui/my_animated.dart';
 import 'ui/my_location.dart';
 import 'ui/top_indicator.dart';
 
+/// MyMap
 class MyMap extends StatefulWidget {
   const MyMap({
     required this.ctrl,

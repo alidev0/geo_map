@@ -5,9 +5,11 @@ import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 import 'calculator.dart';
 
+/// _mapLonEdge
 const _mapLonEdge = 180 * 2;
 // const _mapLatEdge = 90 * 2;
 
+/// latLonToPixelPoint
 PixelPoint latLonToPixelPoint({
   required LatLon latLon,
   required double mapScale,
@@ -24,6 +26,7 @@ PixelPoint latLonToPixelPoint({
   return PixelPoint(x, y);
 }
 
+/// latLonToTilePoint
 TilePoint latLonToTilePoint({required LatLon latLon, required int zoom}) {
   final newScale = getMapScaleForZoom(zoom.toDouble());
 

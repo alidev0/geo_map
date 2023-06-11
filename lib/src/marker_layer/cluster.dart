@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
+/// Cluster
 class Cluster extends StatelessWidget {
   const Cluster({
     super.key,
@@ -34,6 +35,7 @@ class Cluster extends StatelessWidget {
   }
 }
 
+/// _DefaultBuilder
 class _DefaultBuilder extends StatelessWidget {
   const _DefaultBuilder({required this.count, required this.size});
 

@@ -4,6 +4,7 @@ import '../constants/constants.dart';
 import '../models/pixel_point.dart';
 import 'cluster.dart';
 
+/// PositionedCluster
 class PositionedCluster extends StatelessWidget {
   const PositionedCluster({
     required this.point,

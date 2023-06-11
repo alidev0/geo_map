@@ -1,3 +1,4 @@
+/// PixelPoint
 class PixelPoint {
   PixelPoint(this.x, this.y);
   double x;

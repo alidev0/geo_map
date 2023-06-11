@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../debug/map_log.dart';
 
+/// DirectoryProvider
 const directoryProvider = DirectoryProvider();
 
 class DirectoryProvider {

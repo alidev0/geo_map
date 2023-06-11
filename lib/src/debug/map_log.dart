@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// MapLog
 const mapLog = MapLog();
 
 class MapLog {

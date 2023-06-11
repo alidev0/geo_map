@@ -8,6 +8,7 @@ import '../models/pixel_point.dart';
 import 'positioned_cluster.dart';
 import 'positioned_marker.dart';
 
+/// MarkerLayer
 class MarkerLayer extends StatelessWidget {
   const MarkerLayer({
     super.key,

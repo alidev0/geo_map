@@ -6,6 +6,7 @@ import '../models/lat_lon.dart';
 import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 
+/// find the map center after it has scaled
 PixelPoint getNewCenterAfterScale({
   required double prevMapScale,
   required double newMapScale,
@@ -18,6 +19,7 @@ PixelPoint getNewCenterAfterScale({
   return PixelPoint(x, y);
 }
 
+/// find the furtherst point from the center of group of points
 Circle getFurthestCircle(List<Circle> circles) {
   final center = getCirclesPixelCentroid(circles);
 
@@ -39,11 +41,13 @@ Circle getFurthestCircle(List<Circle> circles) {
   return circles[index];
 }
 
+/// find the centroid of the points (in pixel)
 PixelPoint getCirclesPixelCentroid(List<Circle> circles) {
   final points = circles.map((e) => e.pixel).toList();
   return getPixelCentroid(points);
 }
 
+/// find the centroid of the points (in Circle)
 Circle getCirclesCircleCentroid(List<Circle> circles) {
   final latLonPoints = circles.map((e) => e.latLng).toList();
   final pixelPoints = circles.map((e) => e.pixel).toList();
@@ -55,6 +59,7 @@ Circle getCirclesCircleCentroid(List<Circle> circles) {
   );
 }
 
+/// find the centroid of the points (in LatLon)
 LatLon getLanLonCentroid(List<LatLon> points) {
   double x = 0;
   double y = 0;
@@ -82,6 +87,7 @@ PixelPoint getPixelCentroid(List<PixelPoint> points) {
   return PixelPoint(x / length, y / length);
 }
 
+/// find the distance of 2 points
 double getDistanceBtw2Points({
   required PixelPoint point1,
   required PixelPoint point2,
@@ -91,6 +97,7 @@ double getDistanceBtw2Points({
   );
 }
 
+/// find the center tile of the screen
 TilePoint getCenterTile({
   required PixelPoint center,
   required double zoom,
@@ -109,12 +116,15 @@ TilePoint getCenterTile({
   return TilePoint(x, y, newZoom.toInt());
 }
 
+/// find the size of the map for a specific zoom
 double getMapScaleForZoom(double zoom) => pow(2, zoom - zoomRef).toDouble();
 
+/// find the size of the unit for a specific zoom and scale
 double getUnitSize({required double zoom, required double mapScale}) {
   final mapSize = getMapSize(mapScale: mapScale);
   return mapSize / pow(2, zoom);
 }
 
+/// find the size of the map for a specific scale
 double getMapSize({required double mapScale}) =>
     mapScale * (sizeRef * pow(2, zoomRef));

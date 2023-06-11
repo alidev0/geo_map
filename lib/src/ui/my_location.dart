@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/pixel_point.dart';
 
+/// MyLocation
 class MyLocation extends StatelessWidget {
   const MyLocation({super.key, required this.pixelPoint, required this.center});
   final PixelPoint pixelPoint;
@@ -19,7 +20,7 @@ class MyLocation extends StatelessWidget {
     Widget current = Container(
       width: size / 4,
       height: size / 4,
-      decoration:  BoxDecoration(shape: shape, color: blue),
+      decoration: BoxDecoration(shape: shape, color: blue),
     );
 
     current = Container(
@@ -31,8 +32,8 @@ class MyLocation extends StatelessWidget {
     );
 
     return Positioned(
-      left: pixelPoint.x + (fullW / 2) - center.x - (size /2),
-      top: pixelPoint.y + (fullH / 2) - center.y - (size /2),
+      left: pixelPoint.x + (fullW / 2) - center.x - (size / 2),
+      top: pixelPoint.y + (fullH / 2) - center.y - (size / 2),
       child: current,
     );
   }

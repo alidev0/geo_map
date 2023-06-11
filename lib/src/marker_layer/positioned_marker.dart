@@ -4,6 +4,7 @@ import '../constants/constants.dart';
 import '../models/pixel_point.dart';
 import 'marker.dart';
 
+/// PositionedMarker
 class PositionedMarker extends StatelessWidget {
   const PositionedMarker({
     required this.point,

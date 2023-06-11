@@ -2,6 +2,7 @@ import 'cache_prov.dart';
 import 'directory_prov.dart';
 import 'tile_prov.dart';
 
+/// MainProvider
 const mainProvider = MainProvider();
 
 class MainProvider {

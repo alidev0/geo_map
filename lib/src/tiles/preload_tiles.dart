@@ -3,6 +3,7 @@ import '../models/tile_point.dart';
 import '../providers/tile_prov.dart';
 import 'tile_manager.dart';
 
+/// preloadTiles
 void preloadTiles(List<LatLon> locations) async {
   List<TilePoint> tiles = zoom3Tiles();
 

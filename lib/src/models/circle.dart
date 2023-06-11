@@ -2,6 +2,7 @@ import '../calculations/calculator.dart';
 import 'lat_lon.dart';
 import 'pixel_point.dart';
 
+/// Circle
 class Circle {
   Circle({required this.latLng, required this.pixel, required this.radius});
 

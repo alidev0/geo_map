@@ -3,8 +3,9 @@ import '../models/lat_lon.dart';
 import '../providers/main_prov.dart';
 import '../tiles/preload_tiles.dart';
 
+///MapCtrl
 class MapCtrl {
-  // animate to a location
+  /// animate to a location
   late void Function(LatLon, double) animateTo;
 
   /// preload tiles for your locations

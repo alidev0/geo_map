@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
+/// Marker
 class Marker extends StatelessWidget {
   const Marker({super.key, required this.onTap, this.builder});
 
@@ -28,6 +29,7 @@ class Marker extends StatelessWidget {
   }
 }
 
+/// _DefaultBuilder
 class _DefaultBuilder extends StatelessWidget {
   const _DefaultBuilder({required this.size});
 

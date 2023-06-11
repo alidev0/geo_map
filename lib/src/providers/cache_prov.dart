@@ -3,12 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../debug/map_log.dart';
 import '../models/tile_point.dart';
 
+/// CacheProvider
 const cacheProvider = CacheProvider();
 
 class CacheProvider {
   const CacheProvider();
 
-  static const String _key = 'db4';
+  static const String _key = 'db5';
   static late String _onGoingKey;
 
   static late SharedPreferences _database;

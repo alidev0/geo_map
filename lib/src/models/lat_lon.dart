@@ -1,3 +1,4 @@
+/// LatLon
 class LatLon {
   LatLon(this.lat, this.lon);
   double lat;

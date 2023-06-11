@@ -4,6 +4,7 @@ import '../models/lat_lon.dart';
 import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 
+/// tileManager
 Future<List<TilePoint>> tileManager({
   required PixelPoint center,
   required double zoom,
@@ -55,6 +56,7 @@ Future<List<TilePoint>> tileManager({
   return newList;
 }
 
+/// zoom3Tiles
 List<TilePoint> zoom3Tiles() {
   List<TilePoint> list = [];
 
@@ -67,6 +69,7 @@ List<TilePoint> zoom3Tiles() {
   return list;
 }
 
+/// _horizontalTiles
 List<TilePoint> _horizontalTiles({
   required TilePoint centerTile,
   required PixelPoint center,
@@ -87,6 +90,7 @@ List<TilePoint> _horizontalTiles({
   return list;
 }
 
+/// _verticalTiles
 List<TilePoint> _verticalTiles({
   required TilePoint centerTile,
   required PixelPoint center,
@@ -112,6 +116,7 @@ List<TilePoint> _verticalTiles({
   return list;
 }
 
+/// getMarkerTiles
 List<TilePoint> getMarkerTiles({required List<LatLon> markers}) {
   List<TilePoint> list = [];
 
@@ -132,6 +137,7 @@ List<TilePoint> getMarkerTiles({required List<LatLon> markers}) {
   return list;
 }
 
+/// _gpsTiless
 List<TilePoint> _gpsTiles({required LatLon gps}) {
   List<TilePoint> list = [];
 

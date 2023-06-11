@@ -1,3 +1,4 @@
+/// TilePoint
 class TilePoint {
   TilePoint(this.x, this.y, this.z);
   int x;

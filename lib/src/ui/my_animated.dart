@@ -1,12 +1,14 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+/// MyAnimatedCtrl
 class MyAnimatedCtrl {
   MyAnimatedCtrl({required this.forward, required this.reverse});
   final void Function() forward;
   final void Function() reverse;
 }
 
+/// MyAnimated
 class MyAnimated extends StatefulWidget {
   const MyAnimated({
     super.key,

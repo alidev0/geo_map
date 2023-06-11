@@ -9,6 +9,7 @@ import '../models/tile_point.dart';
 import '../providers/cache_prov.dart';
 import '../providers/tile_prov.dart';
 
+/// PositionedTile
 class PositionedTile extends StatelessWidget {
   const PositionedTile({
     required this.mapScale,
@@ -48,6 +49,7 @@ class PositionedTile extends StatelessWidget {
   }
 }
 
+/// TileWidget
 class TileWidget extends StatelessWidget {
   const TileWidget({
     super.key,
@@ -82,6 +84,7 @@ class TileWidget extends StatelessWidget {
   }
 }
 
+/// WarpIt
 class WarpIt extends StatelessWidget {
   const WarpIt({
     super.key,
