@@ -1,3 +1,6 @@
+## 1.0.4
+- add polylines
+
 ## 1.0.3
 - fix IOS
 

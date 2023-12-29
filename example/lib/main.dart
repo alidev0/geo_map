@@ -37,9 +37,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _ctrl = MapCtrl();
   var _markers = allMarkers;
+  var _pLines = allPolylines;
   var _debugMode = false;
 
-  void _onTapSwitch() {
+  void _onTapSwitchMarkers() {
     if (_markers.length == 15) return setState(() => _markers = markers1);
     if (_markers == markers1) return setState(() => _markers = markers2);
     if (_markers == markers2) return setState(() => _markers = markers3);
@@ -47,6 +48,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _toggleDebugMode() => setState(() => _debugMode = !_debugMode);
+
+  void _onTapSwitchLines() {
+    if (_pLines.length == 3) return setState(() => _pLines = polylines1);
+    if (_pLines == polylines1) return setState(() => _pLines = polylines2);
+    if (_pLines == polylines2) return setState(() => _pLines = polylines3);
+    if (_pLines == polylines3) setState(() => _pLines = allPolylines);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +68,7 @@ class _HomePageState extends State<HomePage> {
       debugMode: _debugMode,
       markerBuilder: (size) => Marker(size: size),
       clusterBuilder: (count, size) => Cluster(count: count, size: size),
+      polylines: _pLines,
     );
 
     current = Stack(
@@ -68,8 +77,9 @@ class _HomePageState extends State<HomePage> {
         Bottom(
           ctrl: _ctrl,
           activeMarkers: _markers,
-          onTapSwitch: _onTapSwitch,
+          onTapSwitchMarkers: _onTapSwitchMarkers,
           toggleDebugMode: _toggleDebugMode,
+          onTapSwitchLines: _onTapSwitchLines,
         ),
       ],
     );

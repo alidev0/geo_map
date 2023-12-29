@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ptwcode_map/ptwcode_map.dart';
 
 final myGps = LatLon(41.318340, 19.824007);
@@ -39,3 +40,13 @@ final istanbulLocation = LatLon(41.037110, 28.980087);
 final budapestLocation = LatLon(47.489911, 19.060254);
 final lisbonLocation = LatLon(38.787783, -9.154827);
 final stockholmLocation = LatLon(59.316027, 18.081135);
+
+final allPolylines = [
+  Polyline(points: markers1, color: Colors.black),
+  Polyline(points: markers2, color: Colors.red, width: 2),
+  Polyline(points: markers3, color: Colors.purple, width: 3),
+];
+
+final polylines1 = [allPolylines[0]];
+final polylines2 = [allPolylines[1]];
+final polylines3 = [allPolylines[2]];

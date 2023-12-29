@@ -14,6 +14,7 @@ import 'marker_layer/marker_layer.dart';
 import 'models/circle.dart';
 import 'models/lat_lon.dart';
 import 'models/pixel_point.dart';
+import 'models/polyline.dart';
 import 'models/tile_point.dart';
 import 'providers/main_prov.dart';
 import 'providers/tile_prov.dart';
@@ -22,6 +23,7 @@ import 'tiles/tile_manager.dart';
 import 'ui/ctrl.dart';
 import 'ui/my_animated.dart';
 import 'ui/my_location.dart';
+import 'ui/polyline_layer.dart';
 import 'ui/top_indicator.dart';
 
 /// MyMap
@@ -37,6 +39,7 @@ class MyMap extends StatefulWidget {
     required this.accessToken,
     this.debugMode = false,
     this.gps,
+    this.polylines,
   });
 
   final MapCtrl ctrl;
@@ -48,6 +51,7 @@ class MyMap extends StatefulWidget {
   final String accessToken;
   final bool debugMode;
   final LatLon? gps;
+  final List<Polyline>? polylines;
 
   @override
   State<MyMap> createState() => _MyMapState();
@@ -174,6 +178,7 @@ class _MyMapState extends State<MyMap> {
     }
 
     final markers = widget.markers;
+    final polylines = widget.polylines;
 
     return MyAnimated(
       reset: true,
@@ -226,6 +231,12 @@ class _MyMapState extends State<MyMap> {
                 zoom: _zoom,
                 mapScale: _mapScale,
                 loadedTiles: _loadedTiles,
+              ),
+            if (polylines != null)
+              PolylineLayer(
+                center: _center,
+                polylines: polylines,
+                latLonToPixelPoint: _latLonToPixelPoint,
               ),
           ],
         );
