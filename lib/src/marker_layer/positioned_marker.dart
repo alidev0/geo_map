@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
+import '../models/marker.dart';
 import '../models/pixel_point.dart';
 import 'marker.dart';
 
 /// PositionedMarker
 class PositionedMarker extends StatelessWidget {
   const PositionedMarker({
+    required this.marker,
     required this.point,
     required this.mapCenter,
     required this.onTap,
@@ -14,10 +16,11 @@ class PositionedMarker extends StatelessWidget {
     super.key,
   });
 
+  final Marker marker;
   final PixelPoint point;
   final PixelPoint mapCenter;
   final void Function() onTap;
-  final Widget Function(double)? builder;
+  final Widget Function(double, Map<String, dynamic>?)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class PositionedMarker extends StatelessWidget {
     return Positioned(
       left: point.x + (fullW / 2) - mapCenter.x - clusterRadius,
       top: point.y + (fullH / 2) - mapCenter.y - clusterRadius,
-      child: Marker(builder: builder, onTap: onTap),
+      child: MarkerUI(builder: builder, onTap: onTap, marker: marker),
     );
   }
 }

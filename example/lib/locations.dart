@@ -3,7 +3,7 @@ import 'package:ptwcode_map/ptwcode_map.dart';
 
 final myGps = LatLon(41.318340, 19.824007);
 
-final allMarkers = [
+final _allLocations = [
   tirana1Location,
   tirana2Location,
   tirana3Location,
@@ -20,6 +20,19 @@ final allMarkers = [
   madridLocation,
   stockholmLocation,
 ];
+
+final allMarkers = _allLocations
+    .map(
+      (el) => Marker(
+        latLon: el,
+        data: {'random': DateTime.now().microsecondsSinceEpoch},
+      ),
+    )
+    .toList();
+
+final locations1 = _allLocations.sublist(0, 5);
+final locations2 = _allLocations.sublist(5, 10);
+final locations3 = _allLocations.sublist(10, 15);
 
 final markers1 = allMarkers.sublist(0, 5);
 final markers2 = allMarkers.sublist(5, 10);
@@ -42,9 +55,9 @@ final lisbonLocation = LatLon(38.787783, -9.154827);
 final stockholmLocation = LatLon(59.316027, 18.081135);
 
 final allPolylines = [
-  Polyline(points: markers1, color: Colors.black),
-  Polyline(points: markers2, color: Colors.red, width: 2),
-  Polyline(points: markers3, color: Colors.purple, width: 3),
+  Polyline(points: locations1, color: Colors.black),
+  Polyline(points: locations2, color: Colors.red, width: 2),
+  Polyline(points: locations3, color: Colors.purple, width: 3),
 ];
 
 final polylines1 = [allPolylines[0]];

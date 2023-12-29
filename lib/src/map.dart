@@ -13,6 +13,7 @@ import 'debug/map_log.dart';
 import 'marker_layer/marker_layer.dart';
 import 'models/circle.dart';
 import 'models/lat_lon.dart';
+import 'models/marker.dart';
 import 'models/pixel_point.dart';
 import 'models/polyline.dart';
 import 'models/tile_point.dart';
@@ -43,8 +44,8 @@ class MyMap extends StatefulWidget {
   });
 
   final MapCtrl ctrl;
-  final List<LatLon>? markers;
-  final Widget Function(double)? markerBuilder;
+  final List<Marker>? markers;
+  final Widget Function(double, Map<String, dynamic>?)? markerBuilder;
   final Widget Function(int count, double size)? clusterBuilder;
   final String user;
   final String styleId;
@@ -110,7 +111,7 @@ class _MyMapState extends State<MyMap> {
       scale: _mapScale,
       zoom: _zoom,
       mapScale: _mapScale,
-      markers: widget.markers,
+      markers: widget.markers?.map((el) => el.latLon).toList(),
       gps: widget.gps,
     );
     setState(() {});

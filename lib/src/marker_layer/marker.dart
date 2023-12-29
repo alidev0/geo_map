@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
+import '../models/marker.dart';
 
-/// Marker
-class Marker extends StatelessWidget {
-  const Marker({super.key, required this.onTap, this.builder});
+/// marker UI
+class MarkerUI extends StatelessWidget {
+  const MarkerUI(
+      {super.key, required this.onTap, this.builder, required this.marker});
 
+  final Marker marker;
   final void Function() onTap;
-  final Widget Function(double)? builder;
+  final Widget Function(double, Map<String, dynamic>?)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class Marker extends StatelessWidget {
 
     Widget current = lBuilder == null
         ? const _DefaultBuilder(size: clusterRadius * 2)
-        : lBuilder(clusterRadius * 2);
+        : lBuilder(clusterRadius * 2, marker.data);
 
     current = Center(child: current);
 

@@ -3,6 +3,7 @@ import 'dart:math';
 import '../constants/constants.dart';
 import '../models/circle.dart';
 import '../models/lat_lon.dart';
+import '../models/marker.dart';
 import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 
@@ -53,9 +54,8 @@ Circle getCirclesCircleCentroid(List<Circle> circles) {
   final pixelPoints = circles.map((e) => e.pixel).toList();
 
   return Circle(
-    latLng: getLanLonCentroid(latLonPoints),
+    marker: Marker(latLon: getLanLonCentroid(latLonPoints)),
     pixel: getPixelCentroid(pixelPoints),
-    radius: circles.first.radius,
   );
 }
 

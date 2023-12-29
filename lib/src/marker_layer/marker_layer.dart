@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../calculations/calculator.dart';
-import '../constants/constants.dart';
 import '../models/circle.dart';
 import '../models/lat_lon.dart';
+import '../models/marker.dart';
 import '../models/pixel_point.dart';
 import 'positioned_cluster.dart';
 import 'positioned_marker.dart';
@@ -23,18 +23,17 @@ class MarkerLayer extends StatelessWidget {
   final PixelPoint Function(LatLon) latLonToPixelPoint;
   final PixelPoint center;
   final void Function(List<Circle> points) animateFromCircles;
-  final Widget Function(double)? markerBuilder;
+  final Widget Function(double, Map<String, dynamic>?)? markerBuilder;
   final Widget Function(int count, double size)? clusterBuilder;
-  final List<LatLon> markers;
+  final List<Marker> markers;
 
   @override
   Widget build(BuildContext context) {
     var allCircles = markers
-        .map((el) => Circle(
-            pixel: latLonToPixelPoint(el), latLng: el, radius: clusterRadius))
+        .map((el) => Circle(marker: el, pixel: latLonToPixelPoint(el.latLon)))
         .toList();
 
-    List<LatLon> newMarkes = [];
+    List<Marker> newMarkes = [];
     List<List<Circle>> clusters = [];
 
     while (allCircles.isNotEmpty) {
@@ -52,7 +51,7 @@ class MarkerLayer extends StatelessWidget {
       }
 
       if (cluster.isNotEmpty) clusters.add(cluster);
-      if (cluster.isEmpty) newMarkes.add(circle1.latLng);
+      if (cluster.isEmpty) newMarkes.add(circle1.marker);
 
       allCircles.remove(circle1);
 
@@ -63,10 +62,11 @@ class MarkerLayer extends StatelessWidget {
 
     return Stack(
       children: [
-        ...newMarkes.map((lanlng) {
+        ...newMarkes.map((marker) {
           return PositionedMarker(
+            marker: marker,
             builder: markerBuilder,
-            point: latLonToPixelPoint(lanlng),
+            point: latLonToPixelPoint(marker.latLon),
             onTap: () {},
             mapCenter: center,
           );

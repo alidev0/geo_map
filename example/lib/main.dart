@@ -8,7 +8,7 @@ import 'env.dart';
 import 'locations.dart';
 import 'ui/bottom.dart';
 import 'ui/cluster.dart';
-import 'ui/marker.dart';
+import 'ui/marker_wi.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       gps: myGps,
       markers: _markers,
       debugMode: _debugMode,
-      markerBuilder: (size) => Marker(size: size),
+      markerBuilder: (size, data) => MarkerWi(size: size, data: data),
       clusterBuilder: (count, size) => Cluster(count: count, size: size),
       polylines: _pLines,
     );
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         current,
         Bottom(
           ctrl: _ctrl,
-          activeMarkers: _markers,
+          activeMarkers: _markers.map((el) => el.latLon).toList(),
           onTapSwitchMarkers: _onTapSwitchMarkers,
           toggleDebugMode: _toggleDebugMode,
           onTapSwitchLines: _onTapSwitchLines,

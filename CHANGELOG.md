@@ -1,3 +1,6 @@
+## 1.0.5
+- add marker extra data
+
 ## 1.0.4
 - add polylines
 

@@ -1,18 +1,21 @@
 import '../calculations/calculator.dart';
+import '../constants/constants.dart';
 import 'lat_lon.dart';
+import 'marker.dart';
 import 'pixel_point.dart';
 
 /// Circle
 class Circle {
-  Circle({required this.latLng, required this.pixel, required this.radius});
+  Circle({required this.marker, required this.pixel});
 
-  LatLon latLng;
-  PixelPoint pixel;
-  double radius;
+  final Marker marker;
+  final PixelPoint pixel;
+
+  LatLon get latLng => marker.latLon;
 
   bool intersects(Circle circle) {
     final distance = getDistanceBtw2Points(point1: circle.pixel, point2: pixel);
-    final radiusSum = radius * 2;
+    const radiusSum = clusterRadius * 2;
     return distance <= radiusSum;
   }
 
@@ -26,7 +29,7 @@ class Circle {
 
   @override
   String toString() {
-    return '${pixel.x}, ${pixel.y}, $radius';
+    return '${pixel.x}, ${pixel.y}, $clusterRadius';
   }
 
   // public bool Contains(Circle circle)
