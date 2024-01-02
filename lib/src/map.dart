@@ -22,6 +22,7 @@ import 'providers/tile_prov.dart';
 import 'tiles/tile.dart';
 import 'tiles/tile_manager.dart';
 import 'ui/ctrl.dart';
+import 'ui/helper.dart';
 import 'ui/my_animated.dart';
 import 'ui/my_location.dart';
 import 'ui/polyline_layer.dart';
@@ -34,6 +35,7 @@ class MyMap extends StatefulWidget {
     super.key,
     this.markers,
     this.markerBuilder,
+    this.enableCluster = false,
     this.clusterBuilder,
     required this.user,
     required this.styleId,
@@ -46,6 +48,7 @@ class MyMap extends StatefulWidget {
   final MapCtrl ctrl;
   final List<Marker>? markers;
   final Widget Function(double, Map<String, dynamic>?)? markerBuilder;
+  final bool enableCluster;
   final Widget Function(int count, double size)? clusterBuilder;
   final String user;
   final String styleId;
@@ -137,10 +140,8 @@ class _MyMapState extends State<MyMap> {
     _animateTo(circles.last.latLng, zoom);
   }
 
-  PixelPoint _latLonToPixelPoint(LatLon latLon) => latLonToPixelPoint(
-        latLon: latLon,
-        mapScale: _mapScale,
-      );
+  PixelPoint _latLonToPixelPoint(LatLon latLon) =>
+      latLonToPixelPoint(latLon: latLon, mapScale: _mapScale);
 
   void _boundCheck() {
     final fullSize = MediaQuery.of(context).size;
@@ -201,48 +202,32 @@ class _MyMapState extends State<MyMap> {
 
         Widget current = Stack(
           children: [
-            ..._loadedTiles.map((model) {
-              return PositionedTile(
-                mapScale: _mapScale,
-                zoom: _zoom,
-                center: _center,
-                tile: model,
-              );
-            }).toList(),
+            ..._loadedTiles
+                .map((model) => PositionedTile(zoom: _zoom, tile: model))
+                .toList(),
             if (widget.gps != null)
-              MyLocation(
-                pixelPoint: _latLonToPixelPoint(widget.gps!),
-                center: _center,
-              ),
+              MyLocation(pixelPoint: _latLonToPixelPoint(widget.gps!)),
             if (markers != null)
               MarkerLayer(
-                latLonToPixelPoint: _latLonToPixelPoint,
-                center: _center,
                 animateFromCircles: _animateFromCircles,
                 markerBuilder: widget.markerBuilder,
+                enableCluster: widget.enableCluster,
                 clusterBuilder: widget.clusterBuilder,
                 markers: markers,
               ),
             TopIndicator(tiles: _loadedTiles.length),
             if (MapLog.debugMode)
               DebugW(
-                center: _center,
                 sizeRef: sizeRef,
                 zoomRef: zoomRef,
                 zoom: _zoom,
-                mapScale: _mapScale,
                 loadedTiles: _loadedTiles,
               ),
-            if (polylines != null)
-              PolylineLayer(
-                center: _center,
-                polylines: polylines,
-                latLonToPixelPoint: _latLonToPixelPoint,
-              ),
+            if (polylines != null) PolylineLayer(polylines: polylines),
           ],
         );
 
-        return GestureDetector(
+        current = GestureDetector(
           onScaleStart: (data) {
             _dragMode = data.focalPoint;
             _scaleMode = 1.0;
@@ -296,6 +281,8 @@ class _MyMapState extends State<MyMap> {
           },
           child: current,
         );
+
+        return Helper(mapScale: _mapScale, center: _center, child: current);
       },
     );
   }

@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   var _markers = allMarkers;
   var _pLines = allPolylines;
   var _debugMode = false;
+  var _clusterMode = false;
 
   void _onTapSwitchMarkers() {
     if (_markers.length == 15) return setState(() => _markers = markers1);
@@ -48,6 +49,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _toggleDebugMode() => setState(() => _debugMode = !_debugMode);
+
+  void _toggleClusterMode() => setState(() => _clusterMode = !_clusterMode);
 
   void _onTapSwitchLines() {
     if (_pLines.length == 3) return setState(() => _pLines = polylines1);
@@ -67,6 +70,7 @@ class _HomePageState extends State<HomePage> {
       markers: _markers,
       debugMode: _debugMode,
       markerBuilder: (size, data) => MarkerWi(size: size, data: data),
+      enableCluster: _clusterMode,
       clusterBuilder: (count, size) => Cluster(count: count, size: size),
       polylines: _pLines,
     );
@@ -79,6 +83,7 @@ class _HomePageState extends State<HomePage> {
           activeMarkers: _markers.map((el) => el.latLon).toList(),
           onTapSwitchMarkers: _onTapSwitchMarkers,
           toggleDebugMode: _toggleDebugMode,
+          toggleClusterMode: _toggleClusterMode,
           onTapSwitchLines: _onTapSwitchLines,
         ),
       ],

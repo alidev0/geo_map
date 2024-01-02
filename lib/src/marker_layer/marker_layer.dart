@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../calculations/calculator.dart';
+import '../calculations/lat_lon_cal.dart';
 import '../models/circle.dart';
-import '../models/lat_lon.dart';
 import '../models/marker.dart';
-import '../models/pixel_point.dart';
+import '../ui/helper.dart';
 import 'positioned_cluster.dart';
 import 'positioned_marker.dart';
 
@@ -12,25 +12,28 @@ import 'positioned_marker.dart';
 class MarkerLayer extends StatelessWidget {
   const MarkerLayer({
     super.key,
-    required this.latLonToPixelPoint,
-    required this.center,
     required this.animateFromCircles,
     this.markerBuilder,
+    required this.enableCluster,
     this.clusterBuilder,
     required this.markers,
   });
 
-  final PixelPoint Function(LatLon) latLonToPixelPoint;
-  final PixelPoint center;
   final void Function(List<Circle> points) animateFromCircles;
   final Widget Function(double, Map<String, dynamic>?)? markerBuilder;
+  final bool enableCluster;
   final Widget Function(int count, double size)? clusterBuilder;
   final List<Marker> markers;
 
   @override
   Widget build(BuildContext context) {
+    final mapScale = Helper.mapScaleOf(context);
+    final center = Helper.centerOf(context);
+
     var allCircles = markers
-        .map((el) => Circle(marker: el, pixel: latLonToPixelPoint(el.latLon)))
+        .map((el) => Circle(
+            marker: el,
+            pixel: latLonToPixelPoint(latLon: el.latLon, mapScale: mapScale)))
         .toList();
 
     List<Marker> newMarkes = [];
@@ -41,6 +44,7 @@ class MarkerLayer extends StatelessWidget {
 
       List<Circle> cluster = [];
       for (var circle2 in allCircles) {
+        if (!enableCluster) continue;
         if (circle1.isEqual(circle2)) continue;
 
         final intersects = circle1.intersects(circle2);
@@ -66,7 +70,8 @@ class MarkerLayer extends StatelessWidget {
           return PositionedMarker(
             marker: marker,
             builder: markerBuilder,
-            point: latLonToPixelPoint(marker.latLon),
+            point:
+                latLonToPixelPoint(latLon: marker.latLon, mapScale: mapScale),
             onTap: () {},
             mapCenter: center,
           );

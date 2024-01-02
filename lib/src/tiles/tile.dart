@@ -4,24 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../calculations/calculator.dart';
 import '../debug/map_log.dart';
-import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
 import '../providers/cache_prov.dart';
 import '../providers/tile_prov.dart';
+import '../ui/helper.dart';
 
 /// PositionedTile
 class PositionedTile extends StatelessWidget {
-  const PositionedTile({
-    required this.mapScale,
-    required this.zoom,
-    required this.center,
-    required this.tile,
-    super.key,
-  });
+  const PositionedTile({super.key, required this.zoom, required this.tile});
 
-  final double mapScale;
   final double zoom;
-  final PixelPoint center;
   final TilePoint tile;
 
   @override
@@ -29,6 +21,9 @@ class PositionedTile extends StatelessWidget {
     final fullSize = MediaQuery.of(context).size;
     final fullW = fullSize.width;
     final fullH = fullSize.height;
+
+    final mapScale = Helper.mapScaleOf(context);
+    final center = Helper.centerOf(context);
 
     final scaledSize = getUnitSize(zoom: tile.z.toDouble(), mapScale: mapScale);
 

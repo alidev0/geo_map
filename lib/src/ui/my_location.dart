@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import '../models/pixel_point.dart';
+import 'helper.dart';
 
 /// MyLocation
 class MyLocation extends StatelessWidget {
-  const MyLocation({super.key, required this.pixelPoint, required this.center});
+  const MyLocation({super.key, required this.pixelPoint});
   final PixelPoint pixelPoint;
-  final PixelPoint center;
 
   @override
   Widget build(BuildContext context) {
     final fullSize = MediaQuery.of(context).size;
     final fullW = fullSize.width;
     final fullH = fullSize.height;
+    final center = Helper.centerOf(context);
 
     const size = 48.0;
     final blue = Colors.blue[900];

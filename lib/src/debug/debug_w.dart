@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 
 import '../calculations/calculator.dart';
-import '../models/pixel_point.dart';
 import '../models/tile_point.dart';
+import '../ui/helper.dart';
 
 /// DebugW
 class DebugW extends StatelessWidget {
   const DebugW({
     super.key,
-    required this.center,
     required this.sizeRef,
     required this.zoomRef,
     required this.zoom,
-    required this.mapScale,
     required this.loadedTiles,
   });
 
-  final PixelPoint center;
   final double sizeRef;
   final double zoomRef;
   final double zoom;
-  final double mapScale;
   final List<TilePoint> loadedTiles;
 
   @override
   Widget build(BuildContext context) {
     final fullSize = MediaQuery.of(context).size;
     final fullW = fullSize.width;
+
+    final mapScale = Helper.mapScaleOf(context);
+    final center = Helper.centerOf(context);
 
     final centerTile =
         getCenterTile(center: center, zoom: zoom, mapScale: mapScale);

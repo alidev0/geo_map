@@ -12,6 +12,7 @@ class Bottom extends StatelessWidget {
     required this.activeMarkers,
     required this.onTapSwitchMarkers,
     required this.toggleDebugMode,
+    required this.toggleClusterMode,
     required this.onTapSwitchLines,
   });
 
@@ -19,6 +20,7 @@ class Bottom extends StatelessWidget {
   final List<LatLon> activeMarkers;
   final Function() onTapSwitchMarkers;
   final Function() toggleDebugMode;
+  final Function() toggleClusterMode;
   final Function() onTapSwitchLines;
 
   @override
@@ -114,6 +116,7 @@ class Bottom extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         iconButton(Icons.security, toggleDebugMode),
+        iconButton(Icons.change_circle, toggleClusterMode),
         iconButton(Icons.bubble_chart, onTapSwitchMarkers),
         iconButton(Icons.line_axis, onTapSwitchLines),
         iconButton(Icons.location_searching, () => ctrl.animateTo(myGps, 18)),

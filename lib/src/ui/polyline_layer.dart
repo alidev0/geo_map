@@ -1,53 +1,36 @@
 import 'package:flutter/widgets.dart';
 
-import '../models/lat_lon.dart';
+import '../calculations/lat_lon_cal.dart';
 import '../models/pixel_point.dart';
 import '../models/polyline.dart';
+import 'helper.dart';
 
 class PolylineLayer extends StatelessWidget {
-  const PolylineLayer({
-    required this.center,
-    required this.polylines,
-    required this.latLonToPixelPoint,
-    super.key,
-  });
-
-  final PixelPoint center;
+  const PolylineLayer({super.key, required this.polylines});
   final List<Polyline> polylines;
-  final PixelPoint Function(LatLon) latLonToPixelPoint;
 
   @override
   Widget build(BuildContext context) {
     final fullSize = MediaQuery.of(context).size;
 
-    final painter = _Painter(
-      fullSize: fullSize,
-      center: center,
-      polylines: polylines,
-      latLonToPixelPoint: latLonToPixelPoint,
-    );
-
+    final painter = _Painter(context, fullSize: fullSize, polylines: polylines);
     return CustomPaint(painter: painter);
   }
 }
 
 class _Painter extends CustomPainter {
-  _Painter({
-    required this.fullSize,
-    required this.center,
-    required this.polylines,
-    required this.latLonToPixelPoint,
-  });
+  _Painter(this.context, {required this.fullSize, required this.polylines});
 
+  final BuildContext context;
   final Size fullSize;
-  final PixelPoint center;
   final List<Polyline> polylines;
-  final PixelPoint Function(LatLon) latLonToPixelPoint;
 
   @override
   void paint(Canvas canvas, Size size) {
     final fullW = fullSize.width;
     final fullH = fullSize.height;
+    final mapScale = Helper.mapScaleOf(context);
+    final center = Helper.centerOf(context);
 
     for (var polyline in polylines) {
       final points = polyline.points;
@@ -55,11 +38,11 @@ class _Painter extends CustomPainter {
       final path = Path();
 
       for (var i = 0; i < points.length; i++) {
-        final fullPoint = latLonToPixelPoint(points[i]);
+        final fullP = latLonToPixelPoint(latLon: points[i], mapScale: mapScale);
 
         final point = PixelPoint(
-          fullPoint.x - (center.x - (fullW / 2)),
-          fullPoint.y - (center.y - (fullH / 2)),
+          fullP.x - (center.x - (fullW / 2)),
+          fullP.y - (center.y - (fullH / 2)),
         );
 
         if (i == 0) path.moveTo(point.x, point.y);
