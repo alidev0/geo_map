@@ -19,42 +19,48 @@ class PolylineLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fullSize = MediaQuery.of(context).size;
-    final fullW = fullSize.width;
-    final fullH = fullSize.height;
 
     final painter = _Painter(
+      fullSize: fullSize,
+      center: center,
       polylines: polylines,
       latLonToPixelPoint: latLonToPixelPoint,
     );
 
-    Widget current = CustomPaint(painter: painter);
-
-    return Positioned(
-      left: (fullW / 2) - center.x,
-      top: (fullH / 2) - center.y,
-      child: current,
-    );
+    return CustomPaint(painter: painter);
   }
 }
 
 class _Painter extends CustomPainter {
   _Painter({
+    required this.fullSize,
+    required this.center,
     required this.polylines,
     required this.latLonToPixelPoint,
   });
 
+  final Size fullSize;
+  final PixelPoint center;
   final List<Polyline> polylines;
   final PixelPoint Function(LatLon) latLonToPixelPoint;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final fullW = fullSize.width;
+    final fullH = fullSize.height;
+
     for (var polyline in polylines) {
       final points = polyline.points;
 
       final path = Path();
 
       for (var i = 0; i < points.length; i++) {
-        final point = latLonToPixelPoint(points[i]);
+        final fullPoint = latLonToPixelPoint(points[i]);
+
+        final point = PixelPoint(
+          fullPoint.x - (center.x - (fullW / 2)),
+          fullPoint.y - (center.y - (fullH / 2)),
+        );
 
         if (i == 0) path.moveTo(point.x, point.y);
         if (i == 0) continue;
