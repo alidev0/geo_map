@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget current = MyMap(
+    Widget current = PTWCodeMap(
       ctrl: _ctrl,
       user: mapUser,
       styleId: mapStyleId,

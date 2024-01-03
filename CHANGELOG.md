@@ -1,3 +1,7 @@
+## 1.0.6
+- make cluster optional
+- fix polyline render
+
 ## 1.0.5
 - add marker extra data
 

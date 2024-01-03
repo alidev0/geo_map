@@ -28,9 +28,9 @@ import 'ui/my_location.dart';
 import 'ui/polyline_layer.dart';
 import 'ui/top_indicator.dart';
 
-/// MyMap
-class MyMap extends StatefulWidget {
-  const MyMap({
+/// ptwcode map
+class PTWCodeMap extends StatefulWidget {
+  const PTWCodeMap({
     required this.ctrl,
     super.key,
     this.markers,
@@ -58,10 +58,10 @@ class MyMap extends StatefulWidget {
   final List<Polyline>? polylines;
 
   @override
-  State<MyMap> createState() => _MyMapState();
+  State<PTWCodeMap> createState() => _PTWCodeMapState();
 }
 
-class _MyMapState extends State<MyMap> {
+class _PTWCodeMapState extends State<PTWCodeMap> {
   late MyAnimatedCtrl _ctrl;
 
   List<TilePoint> _loadedTiles = [];
@@ -185,7 +185,10 @@ class _MyMapState extends State<MyMap> {
     return MyAnimated(
       reset: true,
       onBuild: (ctrl) => _ctrl = ctrl,
-      onDone: () => _zoomAnimFromTo = [],
+      onDone: () {
+        _zoom =  _zoomAnimFromTo.last;
+        _zoomAnimFromTo = [];
+      },
       builder: (anim) {
         if (_zoomAnimFromTo.isNotEmpty) {
           _zoom =
