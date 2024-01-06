@@ -51,7 +51,7 @@ class _Painter extends CustomPainter {
         path.lineTo(point.x, point.y);
       }
 
-      path.close();
+      if (polyline.close) path.close();
 
       var paint = Paint()..color = polyline.color;
       paint.style = PaintingStyle.stroke;

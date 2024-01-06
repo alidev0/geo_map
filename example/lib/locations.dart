@@ -55,7 +55,7 @@ final lisbonLocation = LatLon(38.787783, -9.154827);
 final stockholmLocation = LatLon(59.316027, 18.081135);
 
 final allPolylines = [
-  Polyline(points: locations1, color: Colors.black),
+  Polyline(points: locations1, color: Colors.black, close: true),
   Polyline(points: locations2, color: Colors.red, width: 2),
   Polyline(points: locations3, color: Colors.purple, width: 3),
 ];

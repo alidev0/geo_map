@@ -1,3 +1,6 @@
+## 1.0.7
+- make polyline closing optional
+
 ## 1.0.6
 - make cluster optional
 - fix polyline render

@@ -186,7 +186,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
       reset: true,
       onBuild: (ctrl) => _ctrl = ctrl,
       onDone: () {
-        _zoom =  _zoomAnimFromTo.last;
+        _zoom = _zoomAnimFromTo.last;
         _zoomAnimFromTo = [];
       },
       builder: (anim) {
