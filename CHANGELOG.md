@@ -1,3 +1,7 @@
+## 1.0.9
+- add optional touch
+- remove initial position animation
+
 ## 1.0.8
 - add custom size
 - add initial position
