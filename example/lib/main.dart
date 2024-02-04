@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
       // initZoom: 16,
       // width: 300,
       // height: 250,
+      // enableTouch: false,
     );
 
     current = Stack(

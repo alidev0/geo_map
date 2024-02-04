@@ -47,6 +47,7 @@ class PTWCodeMap extends StatefulWidget {
     this.initZoom,
     this.width,
     this.height,
+    this.enableTouch = true,
   });
 
   final MapCtrl ctrl;
@@ -64,6 +65,7 @@ class PTWCodeMap extends StatefulWidget {
   final double? initZoom;
   final double? width;
   final double? height;
+  final bool enableTouch;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -261,60 +263,62 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
           ],
         );
 
-        current = GestureDetector(
-          onScaleStart: (data) {
-            _dragMode = data.focalPoint;
-            _scaleMode = 1.0;
-          },
-          onScaleUpdate: (data) {
-            if (_zoomAnimFromTo.isNotEmpty) return;
-
-            /// panning
-            if (data.scale != 1.0) {
-              final scaleBy = _scaleMode - data.scale;
-              // prevent touch disturbances
-              if (scaleBy.abs() < 0.024) return;
-              // check zoom bounds
-              final expand = scaleBy < 0;
-              final shrink = !expand;
-              if (shrink && !_canShrink) return;
-
-              _mapScale = expand ? _mapScale * 1.02 : _mapScale / 1.02;
-              _zoom = scaleToZoom(
-                  scale: _mapScale, zoomRef: zoomRef, scaleRef: scaleRef);
-
-              _keepCenterWhenScaling();
-
-              _scaleMode = data.scale;
-              _prevScale = _mapScale;
-              _boundCheck();
-            }
-
-            /// dragging
-            if (data.scale == 1.0) {
-              final dragByX = data.focalPoint.dx - _dragMode.dx;
-              if (dragByX < 0) _center.x += dragByX.abs();
-              if (dragByX > 0) _center.x -= dragByX.abs();
-
-              final dragByY = data.focalPoint.dy - _dragMode.dy;
-              if (dragByY < 0) _center.y += dragByY.abs();
-              if (dragByY > 0) _center.y -= dragByY.abs();
-
-              _boundCheck();
+        if (widget.enableTouch) {
+          current = GestureDetector(
+            onScaleStart: (data) {
               _dragMode = data.focalPoint;
-            }
-            setState(() {});
-          },
-          onDoubleTap: () {
-            if (_zoomAnimFromTo.isNotEmpty) return;
-            _zoom++;
-            _mapScale = _mapScale * 2;
-            _keepCenterWhenScaling();
-            _boundCheck();
-            setState(() {});
-          },
-          child: current,
-        );
+              _scaleMode = 1.0;
+            },
+            onScaleUpdate: (data) {
+              if (_zoomAnimFromTo.isNotEmpty) return;
+
+              /// panning
+              if (data.scale != 1.0) {
+                final scaleBy = _scaleMode - data.scale;
+                // prevent touch disturbances
+                if (scaleBy.abs() < 0.024) return;
+                // check zoom bounds
+                final expand = scaleBy < 0;
+                final shrink = !expand;
+                if (shrink && !_canShrink) return;
+
+                _mapScale = expand ? _mapScale * 1.02 : _mapScale / 1.02;
+                _zoom = scaleToZoom(
+                    scale: _mapScale, zoomRef: zoomRef, scaleRef: scaleRef);
+
+                _keepCenterWhenScaling();
+
+                _scaleMode = data.scale;
+                _prevScale = _mapScale;
+                _boundCheck();
+              }
+
+              /// dragging
+              if (data.scale == 1.0) {
+                final dragByX = data.focalPoint.dx - _dragMode.dx;
+                if (dragByX < 0) _center.x += dragByX.abs();
+                if (dragByX > 0) _center.x -= dragByX.abs();
+
+                final dragByY = data.focalPoint.dy - _dragMode.dy;
+                if (dragByY < 0) _center.y += dragByY.abs();
+                if (dragByY > 0) _center.y -= dragByY.abs();
+
+                _boundCheck();
+                _dragMode = data.focalPoint;
+              }
+              setState(() {});
+            },
+            onDoubleTap: () {
+              if (_zoomAnimFromTo.isNotEmpty) return;
+              _zoom++;
+              _mapScale = _mapScale * 2;
+              _keepCenterWhenScaling();
+              _boundCheck();
+              setState(() {});
+            },
+            child: current,
+          );
+        }
 
         current = SizedBox.fromSize(size: _size, child: current);
 
