@@ -45,6 +45,8 @@ class PTWCodeMap extends StatefulWidget {
     this.polylines,
     this.initPos,
     this.initZoom,
+    this.width,
+    this.height,
   });
 
   final MapCtrl ctrl;
@@ -60,6 +62,8 @@ class PTWCodeMap extends StatefulWidget {
   final List<Polyline>? polylines;
   final LatLon? initPos;
   final double? initZoom;
+  final double? width;
+  final double? height;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -150,11 +154,15 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
   PixelPoint _latLonToPixelPoint(LatLon latLon) =>
       latLonToPixelPoint(latLon: latLon, mapScale: _mapScale);
 
+  Size get _size => Size(
+        widget.width ?? MediaQuery.of(context).size.width,
+        widget.height ?? MediaQuery.of(context).size.height,
+      );
+
   void _boundCheck() {
-    final fullSize = MediaQuery.of(context).size;
-    final fullW = fullSize.width;
+    final fullW = _size.width;
     final halfW = fullW / 2;
-    final fullH = fullSize.height;
+    final fullH = _size.height;
     final halfH = fullH / 2;
 
     final mapSize = getMapSize(mapScale: _mapScale);
@@ -167,9 +175,8 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
   bool get _canShrink {
     if (_zoom <= 3.1) return false;
-    final fullSize = MediaQuery.of(context).size;
     final mapSize = getMapSize(mapScale: _mapScale);
-    return mapSize - 8 >= fullSize.height;
+    return mapSize - 8 >= _size.height;
   }
 
   void _keepCenterWhenScaling() {
@@ -300,7 +307,14 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
           child: current,
         );
 
-        return Helper(mapScale: _mapScale, center: _center, child: current);
+        current = SizedBox.fromSize(size: _size, child: current);
+
+        return Helper(
+          mapScale: _mapScale,
+          center: _center,
+          size: _size,
+          child: current,
+        );
       },
     );
   }

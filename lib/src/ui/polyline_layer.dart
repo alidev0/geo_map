@@ -11,7 +11,7 @@ class PolylineLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fullSize = MediaQuery.of(context).size;
+    final fullSize = Helper.sizeOf(context);
 
     final painter = _Painter(context, fullSize: fullSize, polylines: polylines);
     return CustomPaint(painter: painter);

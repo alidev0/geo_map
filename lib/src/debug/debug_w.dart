@@ -21,7 +21,7 @@ class DebugW extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fullSize = MediaQuery.of(context).size;
+    final fullSize = Helper.sizeOf(context);
     final fullW = fullSize.width;
 
     final mapScale = Helper.mapScaleOf(context);

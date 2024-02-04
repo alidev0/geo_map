@@ -75,10 +75,14 @@ class _HomePageState extends State<HomePage> {
       polylines: _pLines,
       // initPos: LatLon(41.50758338587537, 19.794688975005975),
       // initZoom: 16,
+      // width: 300,
+      // height: 250,
     );
 
     current = Stack(
       children: [
+        // const Row(children: []),
+        // const Column(children: []),
         current,
         Bottom(
           ctrl: _ctrl,
