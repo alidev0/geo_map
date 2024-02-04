@@ -131,9 +131,14 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     setState(() {});
   }
 
-  void _animateTo(LatLon latLon, double zoom) {
+  void _animateTo(LatLon latLon, double zoom, {bool direct = false}) {
     _animToLatLon = latLon;
     _zoomAnimFromTo = [_zoom, zoom];
+
+    if (direct) _animCalcs(1);
+    if (direct) _zoomAnimFromTo = [];
+    if (direct) return;
+
     _ctrl.forward();
   }
 
@@ -189,7 +194,11 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     _ctrl = ctrl;
 
     if (widget.initPos != null || widget.initZoom != null) {
-      _animateTo(widget.initPos ?? _startPos, widget.initZoom ?? _zoom);
+      _animateTo(
+        widget.initPos ?? _startPos,
+        widget.initZoom ?? _zoom,
+        direct: true,
+      );
     }
   }
 
