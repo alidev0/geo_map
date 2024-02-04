@@ -43,6 +43,8 @@ class PTWCodeMap extends StatefulWidget {
     this.debugMode = false,
     this.gps,
     this.polylines,
+    this.initPos,
+    this.initZoom,
   });
 
   final MapCtrl ctrl;
@@ -56,6 +58,8 @@ class PTWCodeMap extends StatefulWidget {
   final bool debugMode;
   final LatLon? gps;
   final List<Polyline>? polylines;
+  final LatLon? initPos;
+  final double? initZoom;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -68,7 +72,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
   var _zoom = 0.0;
   var _mapScale = 1.0;
-  PixelPoint _center = PixelPoint(800, 600);
+  late PixelPoint _center;
 
   var _scaleMode = 1.0;
   var _dragMode = const Offset(0, 0);
@@ -79,11 +83,14 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
   Timer? _timer;
 
+  final _startPos = LatLon(42.03763925181516, 16.641153557869984);
+
   @override
   void initState() {
-    super.initState();
+    _center = _latLonToPixelPoint(_startPos);
     widget.ctrl.animateTo = _animateTo;
     SchedulerBinding.instance.addPostFrameCallback((_) => _buildCallback());
+    super.initState();
   }
 
   @override
@@ -171,6 +178,25 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     _prevScale = _mapScale;
   }
 
+  void _onBuild(MyAnimatedCtrl ctrl) {
+    _ctrl = ctrl;
+
+    if (widget.initPos != null || widget.initZoom != null) {
+      _animateTo(widget.initPos ?? _startPos, widget.initZoom ?? _zoom);
+    }
+  }
+
+  void _animCalcs(double anim) {
+    _zoom = lerpDouble(_zoomAnimFromTo.first, _zoomAnimFromTo.last, anim)!;
+    _mapScale = zoomToScale(scaleRef: scaleRef, zoom: _zoom, zoomRef: zoomRef);
+
+    _keepCenterWhenScaling();
+
+    final centerAnimTo = _latLonToPixelPoint(_animToLatLon);
+    _center.x = lerpDouble(_center.x, centerAnimTo.x, anim)!;
+    _center.y = lerpDouble(_center.y, centerAnimTo.y, anim)!;
+  }
+
   @override
   Widget build(BuildContext context) {
     MapLog.debugMode = widget.debugMode;
@@ -184,24 +210,13 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
     return MyAnimated(
       reset: true,
-      onBuild: (ctrl) => _ctrl = ctrl,
+      onBuild: _onBuild,
       onDone: () {
-        _zoom = _zoomAnimFromTo.last;
+        if (_zoom != _zoomAnimFromTo.last) _animCalcs(1);
         _zoomAnimFromTo = [];
       },
       builder: (anim) {
-        if (_zoomAnimFromTo.isNotEmpty) {
-          _zoom =
-              lerpDouble(_zoomAnimFromTo.first, _zoomAnimFromTo.last, anim)!;
-          _mapScale =
-              zoomToScale(scaleRef: scaleRef, zoom: _zoom, zoomRef: zoomRef);
-
-          _keepCenterWhenScaling();
-
-          final centerAnimTo = _latLonToPixelPoint(_animToLatLon);
-          _center.x = lerpDouble(_center.x, centerAnimTo.x, anim)!;
-          _center.y = lerpDouble(_center.y, centerAnimTo.y, anim)!;
-        }
+        if (_zoomAnimFromTo.isNotEmpty) _animCalcs(anim);
 
         Widget current = Stack(
           children: [
