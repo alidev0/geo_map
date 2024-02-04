@@ -1,3 +1,7 @@
+## 1.0.8
+- add custom size
+- add initial position
+
 ## 1.0.7
 - make polyline closing optional
 
