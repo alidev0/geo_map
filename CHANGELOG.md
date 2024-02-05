@@ -1,3 +1,6 @@
+## 1.0.10
+- improve performance
+
 ## 1.0.9
 - add optional touch
 - remove initial position animation
