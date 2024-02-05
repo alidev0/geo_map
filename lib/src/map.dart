@@ -89,11 +89,15 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
   Timer? _timer;
 
-  final _startPos = LatLon(42.03763925181516, 16.641153557869984);
+  LatLon get _initLatLon => LatLon(42.03763925181516, 16.641153557869984);
+  PixelPoint get _initCenter => latLonToPixelPoint(
+        latLon: LatLon(42.03763925181516, 16.641153557869984),
+        mapScale: 1.0,
+      );
 
   @override
   void initState() {
-    _center = _latLonToPixelPoint(_startPos);
+    _center = _initCenter;
     widget.ctrl.animateTo = _animateTo;
     SchedulerBinding.instance.addPostFrameCallback((_) => _buildCallback());
     super.initState();
@@ -192,12 +196,16 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     _prevScale = _mapScale;
   }
 
+  bool get _isDirect {
+    return widget.initPos != null || widget.initZoom != null;
+  }
+
   void _onBuild(MyAnimatedCtrl ctrl) {
     _ctrl = ctrl;
 
-    if (widget.initPos != null || widget.initZoom != null) {
+    if (_isDirect) {
       _animateTo(
-        widget.initPos ?? _startPos,
+        widget.initPos ?? _initLatLon,
         widget.initZoom ?? _zoom,
         direct: true,
       );
@@ -219,9 +227,12 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
   Widget build(BuildContext context) {
     MapLog.debugMode = widget.debugMode;
 
-    if (_loadedTiles.length < 10) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    Widget load = SizedBox.fromSize(
+      size: _size,
+      child: const Center(child: CircularProgressIndicator()),
+    );
+
+    if (_loadedTiles.length < 10) return load;
 
     final markers = widget.markers;
     final polylines = widget.polylines;
@@ -234,6 +245,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
         _zoomAnimFromTo = [];
       },
       builder: (anim) {
+        if (_isDirect && _center.isEqual(_initCenter)) return load;
         if (_zoomAnimFromTo.isNotEmpty) _animCalcs(anim);
 
         Widget current = Stack(

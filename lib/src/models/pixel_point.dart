@@ -10,6 +10,6 @@ class PixelPoint {
   }
 
   bool isEqual(PixelPoint point) {
-    return point.x == point.x && point.y == point.y;
+    return point.x == x && point.y == y;
   }
 }
