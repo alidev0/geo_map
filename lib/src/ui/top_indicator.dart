@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'style.dart';
+
 /// TopIndicator
 class TopIndicator extends StatelessWidget {
   const TopIndicator({super.key, required this.tiles});
@@ -16,7 +18,7 @@ class TopIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget current = Text(tiles.toString());
+    Widget current = Text(tiles.toString(), style: textStyle);
     return Positioned(top: topPadding(context), right: 4, child: current);
   }
 }

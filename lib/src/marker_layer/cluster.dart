@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
+import '../ui/style.dart';
 
 /// Cluster
 class Cluster extends StatelessWidget {
@@ -45,7 +46,7 @@ class _DefaultBuilder extends StatelessWidget {
   @override
   Widget build(Object context) {
     const shape = BoxShape.circle;
-    const style = TextStyle(color: Colors.brown);
+    final style = textStyle.copyWith(color: Colors.brown);
 
     Widget current = Text('$count', style: style);
     current = Center(child: current);

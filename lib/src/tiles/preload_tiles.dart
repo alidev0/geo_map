@@ -4,8 +4,11 @@ import '../providers/tile_prov.dart';
 import 'tile_manager.dart';
 
 /// preloadTiles
-void preloadTiles(List<LatLon> locations) async {
-  List<TilePoint> tiles = zoom3Tiles();
+void preloadTiles(
+  List<LatLon> locations, {
+  bool inlcudeExtraTile = true,
+}) async {
+  List<TilePoint> tiles = inlcudeExtraTile ? zoom3Tiles() : [];
 
   final markerTiles = getMarkerTiles(markers: locations);
 

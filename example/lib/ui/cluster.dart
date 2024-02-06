@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'style.dart';
+
 class Cluster extends StatelessWidget {
   const Cluster({super.key, required this.count, required this.size});
 
@@ -10,7 +12,7 @@ class Cluster extends StatelessWidget {
   Widget build(Object context) {
     const shape = BoxShape.circle;
 
-    Widget current = Text('$count');
+    Widget current = Text('$count', style: textStyle);
     current = Center(child: current);
 
     current = Container(

@@ -1,4 +1,8 @@
 ## 1.0.10
+- add inlcudeExtraTile option in preload
+- fix style for no material case
+
+## 1.0.10
 - improve performance
 
 ## 1.0.9

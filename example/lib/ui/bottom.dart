@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ptwcode_map/ptwcode_map.dart';
 
 import '../locations.dart';
+import 'style.dart';
 
 class Bottom extends StatelessWidget {
   const Bottom({
@@ -48,9 +49,11 @@ class Bottom extends StatelessWidget {
     Widget button(String text, LatLon latLon, double zoom) {
       final isActive = activeMarkers.contains(latLon);
 
-      Widget curr = Text(text, overflow: TextOverflow.ellipsis);
+      Widget curr = Text(text, style: textStyle);
+      curr = FittedBox(fit: BoxFit.scaleDown, child: curr);
       curr = Center(child: curr);
       curr = Padding(padding: const EdgeInsets.all(4), child: curr);
+
       curr = DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.blue,

@@ -8,6 +8,7 @@ import '../models/tile_point.dart';
 import '../providers/cache_prov.dart';
 import '../providers/tile_prov.dart';
 import '../ui/helper.dart';
+import '../ui/style.dart';
 
 /// PositionedTile
 class PositionedTile extends StatelessWidget {
@@ -101,7 +102,10 @@ class WarpIt extends StatelessWidget {
 
     current = Stack(
       alignment: Alignment.center,
-      children: [current, Text('${tile.x}, ${tile.y}, ${tile.z}')],
+      children: [
+        current,
+        Text('${tile.x}, ${tile.y}, ${tile.z}', style: textStyle),
+      ],
     );
 
     return SizedBox(width: size, height: size, child: current);
