@@ -1,4 +1,4 @@
-## 1.0.10
+## 1.1.0
 - add inlcudeExtraTile option in preload
 - fix style for no material case
 
