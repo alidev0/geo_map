@@ -78,10 +78,11 @@ class _HomePageState extends State<HomePage> {
       // width: 300,
       // height: 250,
       // enableTouch: false,
-      northBound: LatLon(41.35175048872195, 19.806819300964158),
-      southBound: LatLon(41.297166569919106, 19.837698729186002),
-      eastBound: LatLon(41.33577699035093, 19.871467143008942),
-      westBound: LatLon(41.329099337693435, 19.783003826896167),
+      // northBound: LatLon(41.35175048872195, 19.806819300964158),
+      // southBound: LatLon(41.297166569919106, 19.837698729186002),
+      // eastBound: LatLon(41.33577699035093, 19.871467143008942),
+      // westBound: LatLon(41.329099337693435, 19.783003826896167),
+      markerRadius: 24,
     );
 
     current = Stack(

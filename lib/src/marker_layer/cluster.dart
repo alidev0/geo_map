@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/constants.dart';
+import '../ui/helper.dart';
 import '../ui/style.dart';
 
 /// Cluster
@@ -18,17 +18,19 @@ class Cluster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final markerRad = Helper.markerRadOf(context);
+
     final lBuilder = builder;
 
     Widget current = lBuilder == null
-        ? _DefaultBuilder(count: count, size: clusterRadius * 2)
-        : lBuilder(count, clusterRadius * 2);
+        ? _DefaultBuilder(count: count, size: markerRad * 2)
+        : lBuilder(count, markerRad * 2);
 
     current = Center(child: current);
 
     current = SizedBox(
-      width: clusterRadius * 2,
-      height: clusterRadius * 2,
+      width: markerRad * 2,
+      height: markerRad * 2,
       child: current,
     );
 

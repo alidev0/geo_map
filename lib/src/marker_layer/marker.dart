@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/constants.dart';
 import '../models/marker.dart';
+import '../ui/helper.dart';
 
 /// marker UI
 class MarkerUI extends StatelessWidget {
@@ -14,17 +14,19 @@ class MarkerUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final markerRad = Helper.markerRadOf(context);
+
     final lBuilder = builder;
 
     Widget current = lBuilder == null
-        ? const _DefaultBuilder(size: clusterRadius * 2)
-        : lBuilder(clusterRadius * 2, marker.data);
+        ? _DefaultBuilder(size: markerRad * 2)
+        : lBuilder(markerRad * 2, marker.data);
 
     current = Center(child: current);
 
     current = SizedBox(
-      width: clusterRadius * 2,
-      height: clusterRadius * 2,
+      width: markerRad * 2,
+      height: markerRad * 2,
       child: current,
     );
 

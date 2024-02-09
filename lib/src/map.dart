@@ -52,6 +52,7 @@ class PTWCodeMap extends StatefulWidget {
     this.southBound,
     this.eastBound,
     this.westBound,
+    this.markerRadius = 16,
   });
 
   final MapCtrl ctrl;
@@ -74,6 +75,7 @@ class PTWCodeMap extends StatefulWidget {
   final LatLon? southBound;
   final LatLon? eastBound;
   final LatLon? westBound;
+  final double markerRadius;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -400,6 +402,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
           mapScale: _mapScale,
           center: _center,
           size: _size,
+          markerRad: widget.markerRadius,
           child: current,
         );
       },

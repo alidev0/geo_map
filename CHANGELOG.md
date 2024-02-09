@@ -1,3 +1,7 @@
+## 1.2.0
+- add bounds
+- add optional marker radius
+
 ## 1.1.0
 - add inlcudeExtraTile option in preload
 - fix style for no material case

@@ -25,7 +25,7 @@ Future<List<TilePoint>> tileManager({
 
   final horizontalTiles = newZoom < 4
       ? <TilePoint>[]
-      : _horizontalTiles(center: center, zoom: newZoom, centerTile: centerTile);
+      : _horizontalTiles(zoom: newZoom, centerTile: centerTile);
 
   newList.addAll(horizontalTiles);
 
@@ -72,12 +72,12 @@ List<TilePoint> zoom3Tiles() {
 /// _horizontalTiles
 List<TilePoint> _horizontalTiles({
   required TilePoint centerTile,
-  required PixelPoint center,
   required int zoom,
+  int expand = 2,
 }) {
   List<List<int>> coords = [];
-  for (var i = -2; i <= 2; i++) {
-    for (var j = -2; j <= 2; j++) {
+  for (var i = -expand; i <= expand; i++) {
+    for (var j = -expand; j <= expand; j++) {
       coords.add([centerTile.x - i, centerTile.y - j]);
     }
   }
@@ -111,6 +111,15 @@ List<TilePoint> _verticalTiles({
     zoomIndex--;
 
     list.add(TilePoint(theXIndex, theYIndex, zoomIndex));
+
+    if (zoomIndex == zoom - 1) {
+      final hList = _horizontalTiles(
+        centerTile: TilePoint(theXIndex, theYIndex, zoomIndex),
+        zoom: zoomIndex,
+        expand: 1,
+      );
+      list.addAll(hList);
+    }
   }
 
   return list;
