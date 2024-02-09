@@ -48,6 +48,10 @@ class PTWCodeMap extends StatefulWidget {
     this.width,
     this.height,
     this.enableTouch = true,
+    this.northBound,
+    this.southBound,
+    this.eastBound,
+    this.westBound,
   });
 
   final MapCtrl ctrl;
@@ -66,6 +70,10 @@ class PTWCodeMap extends StatefulWidget {
   final double? width;
   final double? height;
   final bool enableTouch;
+  final LatLon? northBound;
+  final LatLon? southBound;
+  final LatLon? eastBound;
+  final LatLon? westBound;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -124,7 +132,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
   }
 
   void _periodicFire(Timer _) async {
-    if (_zoomAnimFromTo.isNotEmpty) return;
+    if (_isAnim) return;
     tileProvider.downloadAll(_loadedTiles);
     _loadedTiles = await tileManager(
       center: _center,
@@ -137,15 +145,23 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     setState(() {});
   }
 
-  void _animateTo(LatLon latLon, double zoom, {bool direct = false}) {
+  var _isAnim = false;
+  void _animateTo(LatLon latLon, double zoom, {bool direct = false}) async {
+    if (_isAnim) return;
+    _isAnim = true;
+
     _animToLatLon = latLon;
     _zoomAnimFromTo = [_zoom, zoom];
 
     if (direct) _animCalcs(1);
-    if (direct) _zoomAnimFromTo = [];
+    if (direct) _isAnim = false;
     if (direct) return;
 
     _ctrl.forward();
+
+    await Future.delayed(const Duration(milliseconds: 2000));
+    _animCalcs(1);
+    _isAnim = false;
   }
 
   void _animateFromCircles(List<Circle> circles) {
@@ -182,12 +198,57 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     if (_center.y - (fullH / 2) < 0) _center.y = fullH / 2;
     if (_center.x + halfW > mapSize) _center.x = mapSize - halfW;
     if (_center.y + halfH > mapSize) _center.y = mapSize - halfH;
+
+    final northBound = widget.northBound;
+    if (northBound != null) {
+      final north = _latLonToPixelPoint(northBound);
+      if (_center.y - halfH < north.y) _center.y = north.y + halfH;
+    }
+
+    final southBound = widget.southBound;
+    if (southBound != null) {
+      final south = _latLonToPixelPoint(southBound);
+      if (_center.y + halfH > south.y) _center.y = south.y - halfH;
+    }
+
+    final westBound = widget.westBound;
+    if (westBound != null) {
+      final west = _latLonToPixelPoint(westBound);
+      if (_center.x - halfW < west.x) _center.x = west.x + halfW;
+    }
+
+    final eastBound = widget.eastBound;
+    if (eastBound != null) {
+      final east = _latLonToPixelPoint(eastBound);
+      if (_center.x + halfW > east.x) _center.x = east.x - halfW;
+    }
   }
 
   bool get _canShrink {
     if (_zoom <= 3.1) return false;
     final mapSize = getMapSize(mapScale: _mapScale);
-    return mapSize - 8 >= _size.height;
+
+    if (mapSize <= _size.height) return false;
+
+    final northBound = widget.northBound;
+    final southBound = widget.southBound;
+
+    if (northBound != null && southBound != null) {
+      final north = _latLonToPixelPoint(northBound);
+      final south = _latLonToPixelPoint(southBound);
+      if (south.y - north.y < _size.height) return false;
+    }
+
+    final westBound = widget.westBound;
+    final eastBound = widget.eastBound;
+
+    if (westBound != null && eastBound != null) {
+      final west = _latLonToPixelPoint(westBound);
+      final east = _latLonToPixelPoint(eastBound);
+      if (east.x - west.x < _size.width) return false;
+    }
+
+    return true;
   }
 
   void _keepCenterWhenScaling() {
@@ -213,14 +274,18 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
   }
 
   void _animCalcs(double anim) {
-    _zoom = lerpDouble(_zoomAnimFromTo.first, _zoomAnimFromTo.last, anim)!;
-    _mapScale = zoomToScale(scaleRef: scaleRef, zoom: _zoom, zoomRef: zoomRef);
+    final isShrinking = _zoomAnimFromTo.last < _zoomAnimFromTo.first;
 
+    if (isShrinking && !_canShrink) _zoomAnimFromTo.last = _zoom;
+    _zoom = lerpDouble(_zoomAnimFromTo.first, _zoomAnimFromTo.last, anim)!;
+
+    _mapScale = zoomToScale(scaleRef: scaleRef, zoom: _zoom, zoomRef: zoomRef);
     _keepCenterWhenScaling();
 
     final centerAnimTo = _latLonToPixelPoint(_animToLatLon);
     _center.x = lerpDouble(_center.x, centerAnimTo.x, anim)!;
     _center.y = lerpDouble(_center.y, centerAnimTo.y, anim)!;
+    _boundCheck();
   }
 
   @override
@@ -240,13 +305,10 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     return MyAnimated(
       reset: true,
       onBuild: _onBuild,
-      onDone: () {
-        if (_zoom != _zoomAnimFromTo.last) _animCalcs(1);
-        _zoomAnimFromTo = [];
-      },
+      onDone: () {},
       builder: (anim) {
         if (_isDirect && _center.isEqual(_initCenter)) return load;
-        if (_zoomAnimFromTo.isNotEmpty) _animCalcs(anim);
+        if (_isAnim) _animCalcs(anim);
 
         Widget current = Stack(
           children: [
@@ -282,7 +344,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
               _scaleMode = 1.0;
             },
             onScaleUpdate: (data) {
-              if (_zoomAnimFromTo.isNotEmpty) return;
+              if (_isAnim) return;
 
               /// panning
               if (data.scale != 1.0) {
@@ -321,7 +383,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
               setState(() {});
             },
             onDoubleTap: () {
-              if (_zoomAnimFromTo.isNotEmpty) return;
+              if (_isAnim) return;
               _zoom++;
               _mapScale = _mapScale * 2;
               _keepCenterWhenScaling();
