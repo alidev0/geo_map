@@ -10,6 +10,3 @@ const sizeRef = 192.0;
 
 /// scaleRef
 const scaleRef = 1.0;
-
-/// clusterRadius
-const clusterRadius = 16.0;

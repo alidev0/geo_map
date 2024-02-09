@@ -82,7 +82,8 @@ class _HomePageState extends State<HomePage> {
       // southBound: LatLon(41.297166569919106, 19.837698729186002),
       // eastBound: LatLon(41.33577699035093, 19.871467143008942),
       // westBound: LatLon(41.329099337693435, 19.783003826896167),
-      markerRadius: 24,
+      markerRadius: 16,
+      clusterRadius: 48,
     );
 
     current = Stack(

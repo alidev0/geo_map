@@ -29,10 +29,12 @@ class MarkerLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapScale = Helper.mapScaleOf(context);
     final center = Helper.centerOf(context);
+    final clusterRad = Helper.clusterRadOf(context);
 
     var allCircles = markers
         .map((el) => Circle(
             marker: el,
+            clusterRad: clusterRad,
             pixel: latLonToPixelPoint(latLon: el.latLon, mapScale: mapScale)))
         .toList();
 

@@ -1,6 +1,7 @@
 ## 1.2.0
 - add bounds
 - add optional marker radius
+- add optional cluster radius
 
 ## 1.1.0
 - add inlcudeExtraTile option in preload

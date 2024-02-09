@@ -9,6 +9,7 @@ class Helper extends InheritedWidget {
     required this.center,
     required this.size,
     required this.markerRad,
+    required this.clusterRad,
     required Widget child,
   }) : super(key: key, child: child);
 
@@ -16,11 +17,13 @@ class Helper extends InheritedWidget {
   final PixelPoint center;
   final Size size;
   final double markerRad;
+  final double clusterRad;
 
   static double mapScaleOf(BuildContext context) => _result(context).mapScale;
   static PixelPoint centerOf(BuildContext context) => _result(context).center;
   static Size sizeOf(BuildContext context) => _result(context).size;
   static double markerRadOf(BuildContext context) => _result(context).markerRad;
+  static double clusterRadOf(BuildContext context) => _result(context).clusterRad;
 
   static Helper _result(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<Helper>();

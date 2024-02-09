@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants/constants.dart';
 import '../models/pixel_point.dart';
 import '../ui/helper.dart';
 import 'cluster.dart';
@@ -28,9 +27,11 @@ class PositionedCluster extends StatelessWidget {
     final fullW = fullSize.width;
     final fullH = fullSize.height;
 
+    final markerRad = Helper.markerRadOf(context);
+
     return Positioned(
-      left: point.x + (fullW / 2) - mapCenter.x - clusterRadius,
-      top: point.y + (fullH / 2) - mapCenter.y - clusterRadius,
+      left: point.x + (fullW / 2) - mapCenter.x - markerRad,
+      top: point.y + (fullH / 2) - mapCenter.y - markerRad,
       child: Cluster(count: count, onTap: onTap, builder: builder),
     );
   }

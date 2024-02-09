@@ -56,6 +56,7 @@ Circle getCirclesCircleCentroid(List<Circle> circles) {
   return Circle(
     marker: Marker(latLon: getLanLonCentroid(latLonPoints)),
     pixel: getPixelCentroid(pixelPoints),
+    clusterRad: circles.first.clusterRad,
   );
 }
 

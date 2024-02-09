@@ -53,6 +53,7 @@ class PTWCodeMap extends StatefulWidget {
     this.eastBound,
     this.westBound,
     this.markerRadius = 16,
+    this.clusterRadius = 16,
   });
 
   final MapCtrl ctrl;
@@ -76,6 +77,7 @@ class PTWCodeMap extends StatefulWidget {
   final LatLon? eastBound;
   final LatLon? westBound;
   final double markerRadius;
+  final double clusterRadius;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -173,7 +175,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     );
 
     /// (clusterRadius / distance) with how much scale does point need to get out of center radius
-    final scale = _mapScale * ((clusterRadius * 2.5) / distance);
+    final scale = _mapScale * ((widget.clusterRadius * 2.5) / distance);
     final zoom =
         scaleToZoom(scale: scale, zoomRef: zoomRef, scaleRef: scaleRef);
 
@@ -403,6 +405,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
           center: _center,
           size: _size,
           markerRad: widget.markerRadius,
+          clusterRad: widget.clusterRadius,
           child: current,
         );
       },
