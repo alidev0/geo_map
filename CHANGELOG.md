@@ -2,6 +2,7 @@
 - add bounds
 - add optional marker radius
 - add optional cluster radius
+- add placeMarkerAbovePolyline option
 
 ## 1.1.0
 - add inlcudeExtraTile option in preload

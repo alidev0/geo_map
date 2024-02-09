@@ -54,6 +54,7 @@ class PTWCodeMap extends StatefulWidget {
     this.westBound,
     this.markerRadius = 16,
     this.clusterRadius = 16,
+    this.placeMarkerAbovePolyline = true,
   });
 
   final MapCtrl ctrl;
@@ -78,6 +79,7 @@ class PTWCodeMap extends StatefulWidget {
   final LatLon? westBound;
   final double markerRadius;
   final double clusterRadius;
+  final bool placeMarkerAbovePolyline;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -314,6 +316,20 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
         if (_isDirect && _center.isEqual(_initCenter)) return load;
         if (_isAnim) _animCalcs(anim);
 
+        final polylinesLayer = polylines != null
+            ? PolylineLayer(polylines: polylines)
+            : const SizedBox();
+
+        final markerLayer = markers != null
+            ? MarkerLayer(
+                animateFromCircles: _animateFromCircles,
+                markerBuilder: widget.markerBuilder,
+                enableCluster: widget.enableCluster,
+                clusterBuilder: widget.clusterBuilder,
+                markers: markers,
+              )
+            : const SizedBox();
+
         Widget current = Stack(
           children: [
             ..._loadedTiles
@@ -321,15 +337,9 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
                 .toList(),
             if (widget.gps != null)
               MyLocation(pixelPoint: _latLonToPixelPoint(widget.gps!)),
-            if (markers != null)
-              MarkerLayer(
-                animateFromCircles: _animateFromCircles,
-                markerBuilder: widget.markerBuilder,
-                enableCluster: widget.enableCluster,
-                clusterBuilder: widget.clusterBuilder,
-                markers: markers,
-              ),
             TopIndicator(tiles: _loadedTiles.length),
+            widget.placeMarkerAbovePolyline ? polylinesLayer : markerLayer,
+            widget.placeMarkerAbovePolyline ? markerLayer : polylinesLayer,
             if (MapLog.debugMode)
               DebugW(
                 sizeRef: sizeRef,
@@ -337,7 +347,6 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
                 zoom: _zoom,
                 loadedTiles: _loadedTiles,
               ),
-            if (polylines != null) PolylineLayer(polylines: polylines),
           ],
         );
 
