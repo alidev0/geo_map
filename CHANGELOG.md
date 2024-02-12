@@ -1,4 +1,7 @@
 ## 1.2.0
+- optim example
+
+## 1.2.0
 - add bounds
 - add optional marker radius
 - add optional cluster radius

@@ -5,5 +5,5 @@ const textStyle = TextStyle(
   color: Colors.black,
   decoration: TextDecoration.none,
   fontWeight: FontWeight.normal,
-  fontFamily: 'Roboto'
+  fontFamily: 'Roboto',
 );

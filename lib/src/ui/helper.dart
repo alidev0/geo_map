@@ -23,7 +23,8 @@ class Helper extends InheritedWidget {
   static PixelPoint centerOf(BuildContext context) => _result(context).center;
   static Size sizeOf(BuildContext context) => _result(context).size;
   static double markerRadOf(BuildContext context) => _result(context).markerRad;
-  static double clusterRadOf(BuildContext context) => _result(context).clusterRad;
+  static double clusterRadOf(BuildContext context) =>
+      _result(context).clusterRad;
 
   static Helper _result(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<Helper>();

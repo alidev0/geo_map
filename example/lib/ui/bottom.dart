@@ -12,7 +12,9 @@ class Bottom extends StatelessWidget {
     required this.ctrl,
     required this.activeMarkers,
     required this.onTapSwitchMarkers,
+    required this.debugMode,
     required this.toggleDebugMode,
+    required this.clusterMode,
     required this.toggleClusterMode,
     required this.onTapSwitchLines,
   });
@@ -20,7 +22,9 @@ class Bottom extends StatelessWidget {
   final MapCtrl ctrl;
   final List<LatLon> activeMarkers;
   final Function() onTapSwitchMarkers;
+  final bool debugMode;
   final Function() toggleDebugMode;
+  final bool clusterMode;
   final Function() toggleClusterMode;
   final Function() onTapSwitchLines;
 
@@ -115,12 +119,16 @@ class Bottom extends StatelessWidget {
 
     curent = ColoredBox(color: Colors.blue.withOpacity(0.5), child: curent);
 
+    final debugIcon = debugMode ? Icons.deblur : Icons.deblur_outlined;
+    final clusterIcon =
+        clusterMode ? Icons.bubble_chart : Icons.bubble_chart_outlined;
+
     curent = Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        iconButton(Icons.security, toggleDebugMode),
-        iconButton(Icons.change_circle, toggleClusterMode),
-        iconButton(Icons.bubble_chart, onTapSwitchMarkers),
+        iconButton(debugIcon, toggleDebugMode),
+        iconButton(clusterIcon, toggleClusterMode),
+        iconButton(Icons.location_pin, onTapSwitchMarkers),
         iconButton(Icons.line_axis, onTapSwitchLines),
         iconButton(Icons.location_searching, () => ctrl.animateTo(myGps, 18)),
         curent,
