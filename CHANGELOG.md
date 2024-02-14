@@ -1,3 +1,6 @@
+## 1.2.2
+- optim animation
+
 ## 1.2.1
 - optim example
 
