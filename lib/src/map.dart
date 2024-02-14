@@ -23,7 +23,7 @@ import 'tiles/tile.dart';
 import 'tiles/tile_manager.dart';
 import 'ui/ctrl.dart';
 import 'ui/helper.dart';
-import 'ui/my_animated.dart';
+import 'ui/my_anim.dart';
 import 'ui/my_location.dart';
 import 'ui/polyline_layer.dart';
 import 'ui/top_indicator.dart';
@@ -86,7 +86,7 @@ class PTWCodeMap extends StatefulWidget {
 }
 
 class _PTWCodeMapState extends State<PTWCodeMap> {
-  late MyAnimatedCtrl _ctrl;
+  late MyAnimCtrl _ctrl;
 
   List<TilePoint> _loadedTiles = [];
 
@@ -163,11 +163,14 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     if (direct) _isAnim = false;
     if (direct) return;
 
-    _ctrl.forward();
+    final distance = getDistanceBtw2Points(
+      point1: _center,
+      point2: latLonToPixelPoint(latLon: latLon, mapScale: _mapScale),
+    );
 
-    await Future.delayed(const Duration(milliseconds: 2000));
-    _animCalcs(1);
-    _isAnim = false;
+    final height = MediaQuery.of(context).size.height;
+    final duration = distance < height * 4 ? 200 : 1000;
+    _ctrl.animate(Duration(milliseconds: duration));
   }
 
   void _animateFromCircles(List<Circle> circles) {
@@ -267,7 +270,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     return widget.initPos != null || widget.initZoom != null;
   }
 
-  void _onBuild(MyAnimatedCtrl ctrl) {
+  void _onBuild(MyAnimCtrl ctrl) {
     _ctrl = ctrl;
 
     if (_isDirect) {
@@ -308,10 +311,12 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     final markers = widget.markers;
     final polylines = widget.polylines;
 
-    return MyAnimated(
-      reset: true,
+    return MyAnim(
       onBuild: _onBuild,
-      onDone: () {},
+      onDone: () {
+        _isAnim = false;
+        _animCalcs(1);
+      },
       builder: (anim) {
         if (_isDirect && _center.isEqual(_initCenter)) return load;
         if (_isAnim) _animCalcs(anim);
