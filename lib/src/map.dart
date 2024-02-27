@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -134,12 +135,14 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
 
     _zoom = zoomRef;
     _prevScale = _mapScale;
+    _periodicFire(Timer(Duration.zero, () {}));
+    await Future.delayed(const Duration(milliseconds: 150));
+    _periodicFire(Timer(Duration.zero, () {}));
     _timer = Timer.periodic(const Duration(milliseconds: 333), _periodicFire);
   }
 
   void _periodicFire(Timer _) async {
-    if (_isAnim) return;
-    tileProvider.downloadAll(_loadedTiles);
+    if (!_isAnim) tileProvider.downloadAll(_loadedTiles);
     _loadedTiles = await tileManager(
       center: _center,
       scale: _mapScale,
@@ -169,7 +172,9 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
     );
 
     final height = MediaQuery.of(context).size.height;
-    final duration = distance < height * 4 ? 200 : 1000;
+    final zoomDur = (_zoom - zoom).abs() <= 4 ? 200 : 1000;
+    final distanceDur = distance < height * 4 ? 200 : 1000;
+    final duration = max(zoomDur, distanceDur);
     _ctrl.animate(Duration(milliseconds: duration));
   }
 
@@ -306,7 +311,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
       child: const Center(child: CircularProgressIndicator()),
     );
 
-    if (_loadedTiles.length < 10) return load;
+    if (_loadedTiles.isEmpty) return load;
 
     final markers = widget.markers;
     final polylines = widget.polylines;
