@@ -379,7 +379,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
                 final shrink = !expand;
                 if (shrink && !_canShrink) return;
 
-                _mapScale = expand ? _mapScale * 1.02 : _mapScale / 1.02;
+                _mapScale = expand ? _mapScale * 1.03 : _mapScale / 1.04;
                 _zoom = scaleToZoom(
                     scale: _mapScale, zoomRef: zoomRef, scaleRef: scaleRef);
 
