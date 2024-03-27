@@ -1,3 +1,6 @@
+## 1.2.4
+- optim scaling
+
 ## 1.2.3
 - optim animation
 
