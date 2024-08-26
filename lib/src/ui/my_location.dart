@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../calculations/calculator.dart';
 import '../models/pixel_point.dart';
 import 'helper.dart';
 
@@ -39,18 +40,17 @@ class MyLocation extends StatelessWidget {
       child: current,
     );
 
-    Widget triangle = CustomPaint(painter: _Painter(x: 12, y: 8));
-    triangle = SizedBox(width: 12, height: 8, child: triangle);
-
-    current = Stack(
-      alignment: Alignment.center,
-      children: [current, Positioned(top: 8, child: triangle)],
-    );
-
-    current = SizedBox(width: size, height: size, child: current);
-
     final angle = heading;
-    if (angle != null) current = Transform.rotate(angle: angle, child: current);
+    if (angle != null) {
+      Widget triangle = CustomPaint(painter: _Painter(x: 12, y: 8));
+      triangle = SizedBox(width: 12, height: 8, child: triangle);
+      current = Stack(
+        alignment: Alignment.center,
+        children: [current, Positioned(top: 8, child: triangle)],
+      );
+      current = SizedBox(width: size, height: size, child: current);
+      current = Transform.rotate(angle: degreeToRadian(angle), child: current);
+    }
 
     return Positioned(
       left: pixelPoint.x + (fullW / 2) - center.x - (size / 2),

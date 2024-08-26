@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ptwcode_map/ptwcode_map.dart';
 
-LatLon get myGps => LatLon(41.318340, 19.824007, heading: 180);
+LatLon get myGps => LatLon(41.318340, 19.824007);
 
 final _allLocations = [
   tirana1Location,

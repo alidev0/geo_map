@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
       enableCluster: _clusterMode,
       clusterBuilder: (count, size) => Cluster(count: count, size: size),
       polylines: _pLines,
+      // heading: 90,
       // initPos: LatLon(41.50758338587537, 19.794688975005975),
       // initZoom: 16,
       // width: 300,
