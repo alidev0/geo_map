@@ -153,7 +153,7 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
       markers: widget.markers?.map((el) => el.latLon).toList(),
       gps: widget.gps,
     );
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   var _isAnim = false;
