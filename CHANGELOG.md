@@ -1,3 +1,6 @@
+## 1.3.0
+- add location heading
+
 ## 1.2.4
 - optim scaling
 
