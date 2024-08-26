@@ -129,3 +129,10 @@ double getUnitSize({required double zoom, required double mapScale}) {
 /// find the size of the map for a specific scale
 double getMapSize({required double mapScale}) =>
     mapScale * (sizeRef * pow(2, zoomRef));
+
+/// convert angle to clockwise radians
+/// Convert the angle from -180° to 180° to 0° to 360°
+double degreeToRadian(double angle) {
+  double positiveAngle = angle < 0 ? 360 + angle : angle;
+  return positiveAngle * (pi / 180);
+}

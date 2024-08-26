@@ -56,6 +56,7 @@ class PTWCodeMap extends StatefulWidget {
     this.markerRadius = 16,
     this.clusterRadius = 16,
     this.placeMarkerAbovePolyline = true,
+    this.heading,
   });
 
   final MapCtrl ctrl;
@@ -81,6 +82,7 @@ class PTWCodeMap extends StatefulWidget {
   final double markerRadius;
   final double clusterRadius;
   final bool placeMarkerAbovePolyline;
+  final double? heading;
 
   @override
   State<PTWCodeMap> createState() => _PTWCodeMapState();
@@ -346,7 +348,10 @@ class _PTWCodeMapState extends State<PTWCodeMap> {
                 .map((model) => PositionedTile(zoom: _zoom, tile: model))
                 .toList(),
             if (widget.gps != null)
-              MyLocation(pixelPoint: _latLonToPixelPoint(widget.gps!)),
+              MyLocation(
+                pixelPoint: _latLonToPixelPoint(widget.gps!),
+                heading: widget.heading ?? widget.gps!.heading,
+              ),
             TopIndicator(tiles: _loadedTiles.length),
             widget.placeMarkerAbovePolyline ? polylinesLayer : markerLayer,
             widget.placeMarkerAbovePolyline ? markerLayer : polylinesLayer,
