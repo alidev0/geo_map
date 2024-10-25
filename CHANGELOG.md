@@ -1,3 +1,6 @@
+## 1.3.2
+- optim state change
+
 ## 1.3.1
 - optim state change
 
