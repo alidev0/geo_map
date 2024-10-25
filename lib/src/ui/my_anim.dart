@@ -53,7 +53,7 @@ class _MyAnimState extends State<MyAnim> {
         val = (val * 10000).toInt() / 10000;
         if (val > 1.0) val = 1.0;
 
-        setState(() => _value = val);
+        if (mounted) setState(() => _value = val);
 
         if (_value == 1.0) {
           _value = 0.0;
